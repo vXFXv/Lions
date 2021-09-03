@@ -529,7 +529,50 @@ tdcli_function ({ ID = "SendMessage", chat_id_ = chat_id, reply_to_message_id_ =
 end
 --     Source Lions     --
 function Dev_Abs(chat_id, reply_to_message_id, disable_notification, text, disable_web_page_preview, parse_mode)
-local TextParseMode = getParseMode(parse_mode) tdcli_function ({ ID = "SendMessage", chat_id_ = chat_id, reply_to_message_id_ = reply_to_message_id, disable_notification_ = disable_notification, from_background_ = 1, reply_markup_ = nil, input_message_content_ = { ID = "InputMessageText", text_ = text, disable_web_page_preview_ = disable_web_page_preview, clear_draft_ = 0, entities_ = {}, parse_mode_ = TextParseMode, }, }, dl_cb, nil)
+if text then 
+local TextParseMode = getParseMode(parse_mode)
+local text2 = text
+if parse_mode then
+if parse_mode == 'markdown' or parse_mode == 'md' then
+parse_mode = "Markdown"
+elseif parse_mode == 'html' then
+parse_mode = "Html"
+end
+end
+keyboard = {}
+keyboard.inline_keyboard = {{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+local Abs = "https://api.telegram.org/bot" ..TokenBot.. '/sendMessage?chat_id=' .. chat_id
+if reply_to_message_id ~= 0 then
+Abs = Abs .. '&reply_to_message_id=' .. reply_to_message_id/2097152/0.5 
+end
+if disable_web_page_preview then
+Abs = Abs .. '&disable_web_page_preview=true'
+end
+if text then
+Abs = Abs..'&text='..URL.escape(text2)
+end
+if parse_mode then
+Abs = Abs .. '&parse_mode='..parse_mode
+end
+Abs = Abs..'&reply_markup='..JSON.encode(keyboard)
+return GetApi(Abs) 
+else
+tdcli_function ({
+ID = "SendMessage",
+chat_id_ = chat_id,
+reply_to_message_id_ = reply_to_message_id,
+disable_notification_ = disable_notification,
+from_background_ = 1,
+reply_markup_ = nil,
+input_message_content_ = {
+ID = "InputMessageText",
+text_ = text,
+disable_web_page_preview_ = disable_web_page_preview,
+clear_draft_ = 0,
+entities_ = {},
+parse_mode_ = TextParseMode,
+},}, dl_cb, nil)
+end
 end
 --     Source Lions     --
 function GetApi(web) 
@@ -554,6 +597,9 @@ url = url.."&parse_mode=Markdown&disable_web_page_preview=true"
 elseif markdown == "html" then 
 url = url.."&parse_mode=HTML" 
 end 
+keyboard = {}
+keyboard.inline_keyboard = {{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+url = url..'&reply_markup='..JSON.encode(keyboard)
 return GetApi(url) 
 end
 --     Source Lions     --
@@ -787,7 +833,7 @@ end
 return MsgText
 end
 --     Source Lions     --
-function absmoned(chat_id, user_id, msg_id, text, offset, length) local tt = DevAbs:get(Lions..'endmsg') or '' tdcli_function ({ ID = "SendMessage", chat_id_ = chat_id, reply_to_message_id_ = msg_id, disable_notification_ = 0, from_background_ = 1, reply_markup_ = nil, input_message_content_ = { ID = "InputMessageText", text_ = text..'\n\n'..tt, disable_web_page_preview_ = 1, clear_draft_ = 0, entities_ = {[0]={ ID="MessageEntityMentionName", offset_=offset, length_=length, user_id_=user_id }, }, }, }, dl_cb, nil) end
+function absmoned(chat_id, user_id, msg_id, text, offset, length) tdcli_function ({ ID = "SendMessage", chat_id_ = chat_id, reply_to_message_id_ = msg_id, disable_notification_ = 0, from_background_ = 1, reply_markup_ = nil, input_message_content_ = { ID = "InputMessageText", text_ = text, disable_web_page_preview_ = 1, clear_draft_ = 0, entities_ = {[0]={ ID="MessageEntityMentionName", offset_=offset, length_=length, user_id_=user_id }, }, }, }, dl_cb, nil) end
 --     Source Lions     --
 function ChCheck(msg)
 local var = true 
@@ -967,6 +1013,225 @@ return https.request("https://api.telegram.org/bot"..TokenBot..'/answercallbackq
 else
 return https.request("https://api.telegram.org/bot"..TokenBot..'/answercallbackquery?callback_query_id='..data.id_..'&text='..URL.escape("⌁ عذرا هذا الامر لكشف الروبوت وليس لك .")..'&show_alert=true')
 end 
+end
+if DataText and DataText:match(tonumber(data.sender_user_id_)..':SetMem:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetMem:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:VipMem:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المميزين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetCleaner:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetCleaner:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:Cleaner:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المنظفين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetAdmin:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetAdmin:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:Admins:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة الادمنيه')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetManager:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetManager:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:Managers:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المدراء')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:Constructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المنشئين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetBasicConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetBasicConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:BasicConstructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المنشئين الاساسيين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetAbsConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetAbsConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:AbsConstructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المالكين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetSudoBot:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetSudoBot:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:SudoBot:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المطورين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':SetSecondSudo:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetSecondSudo:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:sadd(Lions..'Abs:SecondSudo:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم رفعه في قائمة المطورين الثانويين')
+end,nil)
+end
+if DataText and DataText:match(tonumber(data.sender_user_id_)..':RemMem:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemMem:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:VipMem:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المميزين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemCleaner:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemCleaner:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Cleaner:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المنظفين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemAdmin:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemAdmin:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Admins:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة الادمنيه')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemManager:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemManager:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Managers:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المدراء')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Constructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المنشئين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemBasicConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemBasicConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:BasicConstructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المنشئين الاساسيين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemAbsConstructor:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemAbsConstructor:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:AbsConstructor:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المالكين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemSudoBot:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemSudoBot:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:SudoBot:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المطورين')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':RemSecondSudo:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemSecondSudo:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:SecondSudo:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تنزيله من قائمة المطورين الثانويين')
+end,nil)
+end
+if DataText and DataText:match(tonumber(data.sender_user_id_)..':Mute:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':Mute:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+if RankChecking(dp.id_, data.chat_id_) then
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙لا تستطيع كتم ↫ '..IdRank(dp.id_, data.chat_id_))
+else
+DevAbs:sadd(Lions..'Abs:Muted:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم كتمه من المجموعه')
+end
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':UnMute:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':UnMute:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Muted:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم الغاء كتمه من المجموعه')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':Ban:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':Ban:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+if RankChecking(dp.id_, data.chat_id_) then
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙لا تستطيع حظر ↫ '..IdRank(dp.id_, data.chat_id_))
+else
+DevAbs:sadd(Lions..'Abs:Ban:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم حظره من المجموعه')
+end
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':UnBan:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':UnBan:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+DevAbs:srem(Lions..'Abs:Ban:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم الغاء حظره من المجموعه')
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':Tked:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':Tked:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+if RankChecking(dp.id_, data.chat_id_) then
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙لا تستطيع تقيد ↫ '..IdRank(dp.id_, data.chat_id_))
+else
+https.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..data.chat_id_.."&user_id="..dp.id_)
+DevAbs:sadd(Lions..'Abs:Tkeed:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم تقيده من المجموعه')
+end
+end,nil)
+elseif DataText and DataText:match(tonumber(data.sender_user_id_)..':UnTked:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':UnTked:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+HTTPS.request("https://api.telegram.org/bot"..TokenBot.."/restrictChatMember?chat_id="..data.chat_id_.."&user_id="..dp.id_.."&can_send_messages=True&can_send_media_messages=True&can_send_other_messages=True&can_add_web_page_previews=True")
+DevAbs:srem(Lions..'Abs:Tkeed:'..data.chat_id_,dp.id_)
+EditMsg(Chat_Id2, Msg_Id2,'⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')\n⌁︙تم الغاء تقيده من المجموعه')
+end,nil)
+end
+if DataText and DataText:match(tonumber(data.sender_user_id_)..':SetRtba:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':SetRtba:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+if dp.first_name_ == false then
+Dev_Abs(data.chat_id_, data.id_, 1, "⌁︙الحساب محذوف", 1, "md")
+return false  
+end
+local Text = '⌁︙قم باستعمال الازرار لرفع العضو ↫ ⤈\n⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')'
+keyboard = {} 
+if Sudo(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منشئ",callback_data=data.sender_user_id_..":SetConstructor:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId},{text="رفع منشئ اساسي",callback_data=data.sender_user_id_..":SetBasicConstructor:"..AbsId}},{{text="رفع مالك",callback_data=data.sender_user_id_..":SetAbsConstructor:"..AbsId},{text="رفع مطور",callback_data=data.sender_user_id_..":SetSudoBot:"..AbsId}},{{text="رفع مطور ثانوي",callback_data=data.sender_user_id_..":SetSecondSudo:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SecondSudo(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منشئ",callback_data=data.sender_user_id_..":SetConstructor:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId},{text="رفع منشئ اساسي",callback_data=data.sender_user_id_..":SetBasicConstructor:"..AbsId}},{{text="رفع مالك",callback_data=data.sender_user_id_..":SetAbsConstructor:"..AbsId},{text="رفع مطور",callback_data=data.sender_user_id_..":SetSudoBot:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SudoBot(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منشئ",callback_data=data.sender_user_id_..":SetConstructor:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId},{text="رفع منشئ اساسي",callback_data=data.sender_user_id_..":SetBasicConstructor:"..AbsId}},{{text="رفع مالك",callback_data=data.sender_user_id_..":SetAbsConstructor:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif AbsConstructor(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منشئ",callback_data=data.sender_user_id_..":SetConstructor:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId},{text="رفع منشئ اساسي",callback_data=data.sender_user_id_..":SetBasicConstructor:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif BasicConstructor(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منشئ",callback_data=data.sender_user_id_..":SetConstructor:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Constructor(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text="رفع منظف",callback_data=data.sender_user_id_..":SetCleaner:"..AbsId},{text="رفع مدير",callback_data=data.sender_user_id_..":SetManager:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Manager(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId},{text="رفع ادمن",callback_data=data.sender_user_id_..":SetAdmin:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Admin(data) then
+keyboard.inline_keyboard = {{{text="رفع مميز",callback_data=data.sender_user_id_..":SetMem:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+end 
+https.request("https://api.telegram.org/bot"..TokenBot..'/editMessageText?chat_id='..Chat_Id2..'&message_id='..Msg_Id2..'&text=' .. URL.escape(Text).."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+end,nil)
+end
+if DataText and DataText:match(tonumber(data.sender_user_id_)..':RemRtba:(.*)') then
+local AbsId = DataText:match(tonumber(data.sender_user_id_)..':RemRtba:(.*)')
+tdcli_function ({ID = "GetUser",user_id_ = AbsId},function(arg,dp) 
+if dp.first_name_ == false then
+Dev_Abs(data.chat_id_, data.id_, 1, "⌁︙الحساب محذوف", 1, "md")
+return false  
+end
+local Text = '⌁︙قم باستعمال الازرار لتنزيل العضو ↫ ⤈\n⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')'
+keyboard = {} 
+if Sudo(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منشئ",callback_data=data.sender_user_id_..":RemConstructor:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId},{text="تنزيل منشئ اساسي",callback_data=data.sender_user_id_..":RemBasicConstructor:"..AbsId}},{{text="تنزيل مالك",callback_data=data.sender_user_id_..":RemAbsConstructor:"..AbsId},{text="تنزيل مطور",callback_data=data.sender_user_id_..":RemSudoBot:"..AbsId}},{{text="تنزيل مطور ثانوي",callback_data=data.sender_user_id_..":RemSecondSudo:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SecondSudo(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منشئ",callback_data=data.sender_user_id_..":RemConstructor:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId},{text="تنزيل منشئ اساسي",callback_data=data.sender_user_id_..":RemBasicConstructor:"..AbsId}},{{text="تنزيل مالك",callback_data=data.sender_user_id_..":RemAbsConstructor:"..AbsId},{text="تنزيل مطور",callback_data=data.sender_user_id_..":RemSudoBot:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SudoBot(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منشئ",callback_data=data.sender_user_id_..":RemConstructor:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId},{text="تنزيل منشئ اساسي",callback_data=data.sender_user_id_..":RemBasicConstructor:"..AbsId}},{{text="تنزيل مالك",callback_data=data.sender_user_id_..":RemAbsConstructor:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif AbsConstructor(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منشئ",callback_data=data.sender_user_id_..":RemConstructor:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId},{text="تنزيل منشئ اساسي",callback_data=data.sender_user_id_..":RemBasicConstructor:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif BasicConstructor(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منشئ",callback_data=data.sender_user_id_..":RemConstructor:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Constructor(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text="تنزيل منظف",callback_data=data.sender_user_id_..":RemCleaner:"..AbsId},{text="تنزيل مدير",callback_data=data.sender_user_id_..":RemManager:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Manager(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId},{text="تنزيل ادمن",callback_data=data.sender_user_id_..":RemAdmin:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Admin(data) then
+keyboard.inline_keyboard = {{{text="تنزيل مميز",callback_data=data.sender_user_id_..":RemMem:"..AbsId}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+end 
+https.request("https://api.telegram.org/bot"..TokenBot..'/editMessageText?chat_id='..Chat_Id2..'&message_id='..Msg_Id2..'&text=' .. URL.escape(Text).."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+end,nil)
 end
 if DataText and DataText:match('/DelRed:'..tonumber(data.sender_user_id_)..'(.*)') then
 local Abbs = DataText:match('/DelRed:'..tonumber(data.sender_user_id_)..'(.*)')
@@ -3994,6 +4259,34 @@ else
 Dev_Abs(msg.chat_id_, msg.id_, 1, '⌁︙عذرا الالعاب معطله في المجموعه', 1, 'md')
 end
 end
+if text == "الالعاب المتطوره" or text == "الالعاب الاحترافيه" or text == "↫ الالعاب المتطوره ᥀" then
+if not DevAbs:get(Lions..'Abs:Lock:Gamesinline'..msg.chat_id_) then
+Text =[[
+*⌁︙قائمه الالعاب المتطوره اضغط للعب*
+]]
+keyboard = {} 
+keyboard.inline_keyboard = {
+{{text="♟ الشطرنج ♟",url='https://t.me/T4TTTTBOT?game=chess'}},
+{{text="لعبة فلابي بيرد 🐥",url='https://t.me/awesomebot?game=FlappyBird'},{text="تحدي الرياضيات",url='https://t.me/gamebot?game=MathBattle'}},
+{{text="اكس او",url='t.me/xobot?start'},{text="سباق الدراجات 🏍",url='https://t.me/gamee?game=MotoFX'}},
+{{text="سباق سيارات 🏎",url='https://t.me/gamee?game=F1Racer'},{text="متشابه 👾",url='https://t.me/gamee?game=DiamondRows'}},
+{{text="كرة قدم ⚽",url='https://t.me/gamee?game=FootballStar'}},
+{{text="ورق🤹‍♂",url='https://t.me/gamee?game=Hexonix'},{text="Hexonix❌",url='https://t.me/gamee?game=Hexonix'}},
+{{text="MotoFx🏍️",url='https://t.me/gamee?game=MotoFx'}},
+{{text="لعبة 2048 🎰",url='https://t.me/awesomebot?game=g2048'},{text="Squares🏁",url='https://t.me/gamee?game=Squares'}},
+{{text="Atomic 1▶️",url='https://t.me/gamee?game=AtomicDrop1'},{text="Corsairs",url='https://t.me/gamebot?game=Corsairs'}},
+{{text="LumberJack",url='https://t.me/gamebot?game=LumberJack'}},
+{{text="LittlePlane",url='https://t.me/gamee?game=LittlePlane'},{text="RollerDisco",url='https://t.me/gamee?game=RollerDisco'}},
+{{text="🦖 لعبة التنين 🦖",url='https://t.me/T4TTTTBOT?game=dragon'},{text="🐍 لعبة الافعى 🐍",url='https://t.me/T4TTTTBOT?game=snake'}},
+{{text="🔵 لعبة الالوان 🔴",url='https://t.me/T4TTTTBOT?game=color'}},
+{{text="🚀 لعبة الصاروخ 🚀",url='https://t.me/T4TTTTBOT?game=rocket'},{text="🏹 لعبة السهام 🏹",url='https://t.me/T4TTTTBOT?game=arrow'}},
+{{text="لعبة النينجا",url='https://t.me/gamee?game=GravityNinja21'},{text="لعبة الكرتي",url='https://t.me/gamee?game=KarateKid2'}},
+{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}},
+}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendMessage?chat_id=' .. msg.chat_id_ .. '&text=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+return false
+end end
 --     Source Lions     --
 if text == 'بيع نقاطي' and ChCheck(msg) then
 if tonumber((DevAbs:get(Lions..'Abs:GamesNumber'..msg.chat_id_..msg.sender_user_id_) or 0)) == 0 then
@@ -4312,20 +4605,41 @@ if text == 'مسح سحكاتي' or text == 'مسح تعديلاتي' or text ==
 if text == 'مسح جهاتي' or text == 'مسح اضافاتي' or text == 'حذف جهاتي' or text == 'حذف اضافاتي' then DevAbs:del(Lions..'Abs:ContactNumber'..msg.chat_id_..':'..msg.sender_user_id_) Dev_Abs(msg.chat_id_, msg.id_, 1, '⌁︙تم حذف جميع جهاتك المضافه' , 1, 'md') end
 --     Source Lions     --
 if text == "المطور" then 
-local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChat?chat_id='..DevAbs:get(Lions.."Abs:ChId"))
-local GetInfo = JSON.decode(Check)
-local DevCh1 = GetInfo.result.username
 local DevText = DevAbs:get(Lions.."DevText")
-if DevAbs:get(Lions.."Abs:ChId") then DevCh = '\n⌁︙*Dev Ch* ↬ [@'..DevCh1..']' else DevCh = '' end
+if DevAbs:get(Lions.."Abs:ChId") then local Check = https.request('https://api.telegram.org/bot'..TokenBot..'/getChat?chat_id='..DevAbs:get(Lions.."Abs:ChId")) local GetInfo = JSON.decode(Check) local DevCh1 = GetInfo.result.username DevCh = '\n⌁︙*Dev Ch* ↬ [@'..DevCh1..']' else DevCh = '' end
 tdcli_function({ID="GetUser",user_id_=DevId},function(arg,dp) 
 if dp.username_ ~= false then DevUser = '@'..dp.username_ else DevUser = dp.first_name_ end
+tdcli_function ({ID = "GetUserProfilePhotos",user_id_ = DevId,offset_ = 0,limit_ = 1},function(extra,abbas,success) 
 if DevText then
+if abbas.photos_[0] then
+keyboard = {} 
+keyboard.inline_keyboard = {{{text=dp.first_name_,url=("t.me/"..dp.username_ or "t.me/ZzZlZzZ")}}}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id='..msg.chat_id_..'&photo='..abbas.photos_[0].sizes_[1].photo_.persistent_id_..'&caption='..URL.escape(DevText).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+else
 Dev_Abs(msg.chat_id_, msg.id_, 1, DevText, 1, "md")
+end
+else
+if abbas.photos_[0] then
+keyboard = {} 
+keyboard.inline_keyboard = {{{text=dp.first_name_,url=("t.me/"..dp.username_ or "t.me/ZzZlZzZ")}}}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id='..msg.chat_id_..'&photo='..abbas.photos_[0].sizes_[1].photo_.persistent_id_..'&caption='..URL.escape('⌁︙*Dev User* ↬ ['..DevUser..']\n⌁︙*Dev Id* ↬ '..DevId..DevCh).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
 else
 Dev_Abs(msg.chat_id_, msg.id_, 1, '⌁︙*Dev User* ↬ ['..DevUser..']\n⌁︙*Dev Id* ↬ '..DevId..DevCh, 1, "md")
 end
+end
+end,nil)
 end,nil)
 end 
+if text == "مبرمج السورس" or text == "مطور السورس" or text == "المبرمج" then 
+Text = "• *The developer and programmer of this source is* : [Abbas Kareem](https://t.me/IQ_ABS)."
+keyboard = {} 
+keyboard.inline_keyboard = {{{text='- AbBaS KArEeM .',url="t.me/IQ_ABS"}}}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id='..msg.chat_id_..'&photo=https://t.me/IQ_ABS&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+return false
+end
 --     Source Lions     --
 if text and text:match('^هينه @(.*)') and ChCheck(msg) or text and text:match('^هينها @(.*)') then 
 if not DevAbs:get(Lions..'Abs:Lock:Stupid'..msg.chat_id_) then
@@ -5342,6 +5656,97 @@ DevAbs:srem(Lions..'Abs:VipMem:'..msg.chat_id_,user)
 ReplyStatus(msg,user,"Reply","⌁︙تم تنزيله من قائمة المميزين")  
 end end 
 --     Source Lions     --
+--       Set Inline       --
+if text ==('رفع رتبه') and ChCheck(msg) then
+function prom_reply(extra, result, success)
+tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,dp) 
+if dp.first_name_ == false then
+Dev_Abs(msg.chat_id_, msg.id_, 1, "⌁︙الحساب محذوف", 1, "md")
+return false  
+end
+local Text = '⌁︙قم باستعمال الازرار لرفع العضو ↫ ⤈\n⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')'
+if Sudo(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منشئ",callback_data=msg.sender_user_id_..":SetConstructor:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_},{text="رفع منشئ اساسي",callback_data=msg.sender_user_id_..":SetBasicConstructor:"..result.sender_user_id_}},{{text="رفع مالك",callback_data=msg.sender_user_id_..":SetAbsConstructor:"..result.sender_user_id_},{text="رفع مطور",callback_data=msg.sender_user_id_..":SetSudoBot:"..result.sender_user_id_}},{{text="رفع مطور ثانوي",callback_data=msg.sender_user_id_..":SetSecondSudo:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SecondSudo(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منشئ",callback_data=msg.sender_user_id_..":SetConstructor:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_},{text="رفع منشئ اساسي",callback_data=msg.sender_user_id_..":SetBasicConstructor:"..result.sender_user_id_}},{{text="رفع مالك",callback_data=msg.sender_user_id_..":SetAbsConstructor:"..result.sender_user_id_},{text="رفع مطور",callback_data=msg.sender_user_id_..":SetSudoBot:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SudoBot(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منشئ",callback_data=msg.sender_user_id_..":SetConstructor:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_},{text="رفع منشئ اساسي",callback_data=msg.sender_user_id_..":SetBasicConstructor:"..result.sender_user_id_}},{{text="رفع مالك",callback_data=msg.sender_user_id_..":SetAbsConstructor:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif AbsConstructor(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منشئ",callback_data=msg.sender_user_id_..":SetConstructor:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_},{text="رفع منشئ اساسي",callback_data=msg.sender_user_id_..":SetBasicConstructor:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif BasicConstructor(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منشئ",callback_data=msg.sender_user_id_..":SetConstructor:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Constructor(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text="رفع منظف",callback_data=msg.sender_user_id_..":SetCleaner:"..result.sender_user_id_},{text="رفع مدير",callback_data=msg.sender_user_id_..":SetManager:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Manager(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_},{text="رفع ادمن",callback_data=msg.sender_user_id_..":SetAdmin:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Admin(msg) then
+inline = {{{text="رفع مميز",callback_data=msg.sender_user_id_..":SetMem:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+end
+SendInline(msg.chat_id_,Text,nil,inline,msg.id_/2097152/0.5)
+end,nil)
+end 
+if tonumber(tonumber(msg.reply_to_message_id_)) > 0 then
+getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+end 
+end
+--     Source Lions     --
+--       Rem Inline       --
+if text ==('تنزيل رتبه') and ChCheck(msg) then
+function prom_reply(extra, result, success)
+tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,dp) 
+if dp.first_name_ == false then
+Dev_Abs(msg.chat_id_, msg.id_, 1, "⌁︙الحساب محذوف", 1, "md")
+return false  
+end
+local Text = '⌁︙قم باستعمال الازرار لتنزيل العضو ↫ ⤈\n⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')'
+if Sudo(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منشئ",callback_data=msg.sender_user_id_..":RemConstructor:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_},{text="تنزيل منشئ اساسي",callback_data=msg.sender_user_id_..":RemBasicConstructor:"..result.sender_user_id_}},{{text="تنزيل مالك",callback_data=msg.sender_user_id_..":RemAbsConstructor:"..result.sender_user_id_},{text="تنزيل مطور",callback_data=msg.sender_user_id_..":RemSudoBot:"..result.sender_user_id_}},{{text="تنزيل مطور ثانوي",callback_data=msg.sender_user_id_..":RemSecondSudo:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SecondSudo(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منشئ",callback_data=msg.sender_user_id_..":RemConstructor:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_},{text="تنزيل منشئ اساسي",callback_data=msg.sender_user_id_..":RemBasicConstructor:"..result.sender_user_id_}},{{text="تنزيل مالك",callback_data=msg.sender_user_id_..":RemAbsConstructor:"..result.sender_user_id_},{text="تنزيل مطور",callback_data=msg.sender_user_id_..":RemSudoBot:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif SudoBot(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منشئ",callback_data=msg.sender_user_id_..":RemConstructor:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_},{text="تنزيل منشئ اساسي",callback_data=msg.sender_user_id_..":RemBasicConstructor:"..result.sender_user_id_}},{{text="تنزيل مالك",callback_data=msg.sender_user_id_..":RemAbsConstructor:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif AbsConstructor(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منشئ",callback_data=msg.sender_user_id_..":RemConstructor:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_},{text="تنزيل منشئ اساسي",callback_data=msg.sender_user_id_..":RemBasicConstructor:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif BasicConstructor(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منشئ",callback_data=msg.sender_user_id_..":RemConstructor:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Constructor(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text="تنزيل منظف",callback_data=msg.sender_user_id_..":RemCleaner:"..result.sender_user_id_},{text="تنزيل مدير",callback_data=msg.sender_user_id_..":RemManager:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Manager(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_},{text="تنزيل ادمن",callback_data=msg.sender_user_id_..":RemAdmin:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+elseif Admin(msg) then
+inline = {{{text="تنزيل مميز",callback_data=msg.sender_user_id_..":RemMem:"..result.sender_user_id_}},{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}}
+end
+SendInline(msg.chat_id_,Text,nil,inline,msg.id_/2097152/0.5)
+end,nil)
+end 
+if tonumber(tonumber(msg.reply_to_message_id_)) > 0 then
+getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+end 
+end
+--     Source Lions     --
+if text ==('تحكم') and ChCheck(msg) then
+function prom_reply(extra, result, success)
+tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,dp) 
+if dp.first_name_ == false then
+Dev_Abs(msg.chat_id_, msg.id_, 1, "⌁︙الحساب محذوف", 1, "md")
+return false  
+end
+local Text = '⌁︙قم باستعمال الازرار للتحكم العضو ↫ ⤈\n⌁︙العضو ↫ ['..dp.first_name_..'](t.me/'..(dp.username_ or 'ZzZlZzZ')..')'
+inline = {
+{{text="رفع رتبه",callback_data=msg.sender_user_id_..":SetRtba:"..result.sender_user_id_},{text="تنزيل رتبه",callback_data=msg.sender_user_id_..":RemRtba:"..result.sender_user_id_}},
+{{text="كتم",callback_data=msg.sender_user_id_..":Mute:"..result.sender_user_id_},{text="الغاء كتم",callback_data=msg.sender_user_id_..":UnMute:"..result.sender_user_id_}},
+{{text="حظر",callback_data=msg.sender_user_id_..":Ban:"..result.sender_user_id_},{text="الغاء حظر",callback_data=msg.sender_user_id_..":UnBan:"..result.sender_user_id_}},
+{{text="تقيد",callback_data=msg.sender_user_id_..":Tked:"..result.sender_user_id_},{text="الغاء تقيد",callback_data=msg.sender_user_id_..":UnTked:"..result.sender_user_id_}},
+{{text = '⌁ Lions TeAM .',url="t.me/ZzZlZzZ"}}
+}
+SendInline(msg.chat_id_,Text,nil,inline,msg.id_/2097152/0.5)
+end,nil)
+end 
+if tonumber(tonumber(msg.reply_to_message_id_)) > 0 then
+getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+end 
+end
+--     Source Lions     --
 if BasicConstructor(msg) then
 if text and text:match("^رفع مشرف$") and msg.reply_to_message_id_ then
 function promote_by_reply(extra, result, success)
@@ -6332,8 +6737,16 @@ if dp.first_name_ == false then
 Dev_Abs(msg.chat_id_, msg.id_, 1, "⌁︙حساب المنشئ محذوف", 1, "md")
 return false  
 end
-local UserName = (dp.username_ or "ZzZlZzZ")
-Dev_Abs(msg.chat_id_, msg.id_, 1, "⌁︙مالك المجموعه ↫ ["..dp.first_name_.."](T.me/"..UserName..")", 1, "md")  
+tdcli_function ({ID = "GetUserProfilePhotos",user_id_ = dp.id_,offset_ = 0,limit_ = 1},function(extra,abbas,success) 
+if abbas.photos_[0] then
+keyboard = {} 
+keyboard.inline_keyboard = {{{text=dp.first_name_,url=("t.me/"..dp.username_ or "t.me/ZzZlZzZ")}}}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id='..msg.chat_id_..'&photo='..abbas.photos_[0].sizes_[1].photo_.persistent_id_..'&caption=' .. URL.escape("⌁︙مالك المجموعه ↫ ⤈").."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+else
+SendText(msg.chat_id_,"⌁︙مالك المجموعه ↫ ["..dp.first_name_.."](tg://user?id="..dp.id_..")",msg.id_/2097152/0.5,'md')
+end
+end,nil)  
 end,nil)   
 end
 end
