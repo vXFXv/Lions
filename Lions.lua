@@ -1,9 +1,3 @@
-------------------------------------------------
--- This Source Was Developed By (ABS) @IQ_ABS.--
---   This Is The Source Channel @ZzZlZzZ .   --
---                 - Lions -                 --
---         -- https://t.me/ZzZlZzZ --         --
------------------------------------------------- 
 DevAbs  = dofile("./libs/redis.lua").connect("127.0.0.1", 6379)
 serpent = dofile("./libs/serpent.lua")
 JSON    = dofile("./libs/dkjson.lua")
@@ -4583,15 +4577,6 @@ end
 end,nil)
 end,nil)
 end 
-if text == "مبرمج السورس" or text == "مطور السورس" or text == "المبرمج" then 
-Text = "• *The developer and programmer of this source is* : [Abbas Kareem](https://t.me/IQ_ABS)."
-keyboard = {} 
-keyboard.inline_keyboard = {{{text='- AbBaS KArEeM .',url="t.me/IQ_ABS"}}}
-local msg_id = msg.id_/2097152/0.5
-https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id='..msg.chat_id_..'&photo=https://t.me/IQ_ABS&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
-return false
-end
---     Source Lions     --
 if text and text:match('^هينه @(.*)') and ChCheck(msg) or text and text:match('^هينها @(.*)') then 
 if not DevAbs:get(Lions..'Abs:Lock:Stupid'..msg.chat_id_) then
 local username = text:match('^هينه @(.*)') or text:match('^هينها @(.*)') 
@@ -11022,9 +11007,3 @@ end end,nil) end
 end
 --     Source Lions     --
 end 
-------------------------------------------------
--- This Source Was Developed By (ABS) @IQ_ABS.--
---   This Is The Source Channel @ZzZlZzZ .   --
---                 - Lions -                 --
---         -- https://t.me/ZzZlZzZ --         --
------------------------------------------------- 
